@@ -7,10 +7,16 @@ Twinkle_List = ['c4','c4','g4','g4','a4','a4','g4',
 				'f4','f4','e4','e4','d4','d4','c4'
     ]
 
+letterarray = ["a", "b", "c", "d", "e", "f", "g"]
+numberarray = ["1", "2", "3", "4", "5", "6", "7"]
+
+
+
 from threading import Thread
 import pygame as pg 
 import time
 import os
+import random
 
 
 from threading import Thread
@@ -55,10 +61,19 @@ def load_sound(sound_filename, directory):
     sound = pg.mixer.Sound(fullname)
     return sound
 
-e = load_sound("e4.wav", 'Sounds/')
-c = load_sound("c4.wav", 'Sounds/')
-g = load_sound("g4.wav", 'Sounds/')
-pg.mixer.Channel(0).play(c)
-pg.mixer.Channel(1).play(g)
-pg.mixer.Channel(2).play(e)
+
+def select_wav(count=3):
+    i = 0
+    filenames = []
+    while i < count:
+        filenames.append(f"{random.choice(letterarray)}{random.choice(numberarray)}.wav")
+        i = i + 1
+    return filenames
+
+
+notes = select_wav(3)
+
+for i, item in enumerate(notes):
+    print(f"Note: {item.split('.')[0]}")
+    pg.mixer.Channel(i).play(load_sound(item, "Sounds"))
 pg.time.wait(3000)
