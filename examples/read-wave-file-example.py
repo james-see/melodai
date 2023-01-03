@@ -54,7 +54,7 @@ wav_file_name = 'Alesis-Sanctuary-QCard-Crickets.wav'
 wave_file_path = os.path.join(here_path, wav_file_name)
 sr, signal = wavfile.read(wave_file_path)
 
-y = signal[:, 0]  # use the first channel (or take their average, alternatively)
+y = signal[:, 0]  # use the first channel (or take their average)
 t = np.arange(len(y)) / float(sr)
 
 plt.figure()
