@@ -9,7 +9,8 @@ Twinkle_List = ['c4','c4','g4','g4','a4','a4','g4',
 
 from threading import Thread
 import pygame as pg 
-import time 
+import time
+import os
 
 
 from threading import Thread
@@ -35,14 +36,29 @@ cnt =1	# A counter to delay once a line is finished as there
 th = {}
 
 
-for t in Twinkle_List:
-	th[t] = Thread(target = play_notes,args = (path+'{}.wav'.format(t),0.3))
-	# These are arguments (path+'{}.wav'.format(t),0.3)
-	# Lets start the thread
-	th[t].start()
-	th[t].join()
-	if cnt%7==0:
-		print("---Long Pause---")
-		time.sleep(1) # Let the sound play for the last note of each line
+# for t in Twinkle_List:
+# 	th[t] = Thread(target = play_notes,args = (path+'{}.wav'.format(t),0.3))
+# 	# These are arguments (path+'{}.wav'.format(t),0.3)
+# 	# Lets start the thread
+# 	th[t].start()
+# 	th[t].join()
+# 	if cnt%7==0:
+# 		print("---Long Pause---")
+# 		time.sleep(1) # Let the sound play for the last note of each line
 		
-	cnt+=1
+# 	cnt+=1
+
+
+def load_sound(sound_filename, directory):
+    """load the sound file from the given directory"""
+    fullname = os.path.join(directory, sound_filename)
+    sound = pg.mixer.Sound(fullname)
+    return sound
+
+e = load_sound("e4.wav", 'Sounds/')
+c = load_sound("c4.wav", 'Sounds/')
+g = load_sound("g4.wav", 'Sounds/')
+pg.mixer.Channel(0).play(c)
+pg.mixer.Channel(1).play(g)
+pg.mixer.Channel(2).play(e)
+pg.time.wait(3000)
