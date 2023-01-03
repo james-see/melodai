@@ -7,7 +7,7 @@ Twinkle_List = ['c4','c4','g4','g4','a4','a4','g4',
 				'f4','f4','e4','e4','d4','d4','c4'
     ]
 
-letterarray = ["a", "b", "c", "d", "e", "f", "g"]
+letterarray = ["a", "c", "d", "e", "g"]
 numberarray = ["1", "2", "3", "4", "5", "6", "7"]
 
 
@@ -70,10 +70,19 @@ def select_wav(count=3):
         i = i + 1
     return filenames
 
+# seed a set of 5 chords to use in song
+notesdict = {}
+i = 0
+while i < 5:
+    notesdict[i] = select_wav(3)
+    i = i + 1
 
-notes = select_wav(3)
-
-for i, item in enumerate(notes):
-    print(f"Note: {item.split('.')[0]}")
-    pg.mixer.Channel(i).play(load_sound(item, "Sounds"))
-pg.time.wait(3000)
+# make a random length song with random sustain of each chord from seed chords
+res = random.sample(range(1, 50), random.choice(range(5, 20)))
+print(f"length of song: {len(res)}")
+for samp in res:
+    notes = notesdict[random.choice(range(0, len(notesdict)))]
+    for i, item in enumerate(notes):
+        print(f"Note: {item.split('.')[0]}")
+        pg.mixer.Channel(i).play(load_sound(item, "Sounds"))
+    pg.time.wait(random.choice(range(100, 4000)))
